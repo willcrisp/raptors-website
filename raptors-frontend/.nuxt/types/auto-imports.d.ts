@@ -79,6 +79,15 @@ declare global {
   const useRuntimeConfig: typeof import('../../node_modules/nuxt/dist/app')['useRuntimeConfig']
   const useSlots: typeof import('vue')['useSlots']
   const useState: typeof import('../../node_modules/nuxt/dist/app')['useState']
+  const useStrapi3: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapi3')['useStrapi3']
+  const useStrapi4: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapi4')['useStrapi4']
+  const useStrapiAuth: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiAuth')['useStrapiAuth']
+  const useStrapiClient: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiClient')['useStrapiClient']
+  const useStrapiGraphQL: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiGraphQL')['useStrapiGraphQL']
+  const useStrapiToken: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiToken')['useStrapiToken']
+  const useStrapiUrl: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiUrl')['useStrapiUrl']
+  const useStrapiUser: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiUser')['useStrapiUser']
+  const useStrapiVersion: typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiVersion')['useStrapiVersion']
   const useTransitionState: typeof import('vue')['useTransitionState']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -171,6 +180,15 @@ declare module '@vue/runtime-core' {
     readonly useRuntimeConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRuntimeConfig']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useState']>
+    readonly useStrapi3: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapi3')['useStrapi3']>
+    readonly useStrapi4: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapi4')['useStrapi4']>
+    readonly useStrapiAuth: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiAuth')['useStrapiAuth']>
+    readonly useStrapiClient: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiClient')['useStrapiClient']>
+    readonly useStrapiGraphQL: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiGraphQL')['useStrapiGraphQL']>
+    readonly useStrapiToken: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiToken')['useStrapiToken']>
+    readonly useStrapiUrl: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiUrl')['useStrapiUrl']>
+    readonly useStrapiUser: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiUser')['useStrapiUser']>
+    readonly useStrapiVersion: UnwrapRef<typeof import('../../node_modules/@nuxtjs/strapi/dist/runtime/composables/useStrapiVersion')['useStrapiVersion']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

@@ -14,5 +14,7 @@ export default defineNuxtConfig({
     // Options
     url: process.env.STRAPI_URL || 'http://localhost:1337/api',
     entities: ['articles'],
+    prefix: '/api',
   },
+  modules: ['@nuxtjs/strapi'],
 })
