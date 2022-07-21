@@ -1,1 +1,0 @@
-import{_ as o}from"./Nav-a7cacd8c.mjs";import{_ as t,o as n,c as a,a as c,b as s}from"./entry-a8ab77eb.mjs";const _={},r=s("h1",null,"Hello this is the events page",-1);function l(i,d){const e=o;return n(),a("div",null,[c(e),r])}var f=t(_,[["render",l]]);export{f as default};
