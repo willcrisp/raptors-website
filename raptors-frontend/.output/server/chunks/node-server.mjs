@@ -1,25 +1,19 @@
-globalThis._importMeta_={url:import.meta.url,env:process.env};import 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/node-fetch-native/dist/polyfill.mjs';
-import { Server } from 'http';
-import { tmpdir } from 'os';
-import { join } from 'path';
-import { mkdirSync } from 'fs';
-import { parentPort, threadId } from 'worker_threads';
-import { provider, isWindows } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/std-env/dist/index.mjs';
-import { defineEventHandler, handleCacheHeaders, createEvent, createApp, createRouter, lazyEventHandler, eventHandler, useQuery } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/h3/dist/index.mjs';
-import { createFetch as createFetch$1, Headers } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/ohmyfetch/dist/node.mjs';
-import destr from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/destr/dist/index.mjs';
-import { createRouter as createRouter$1 } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/radix3/dist/index.mjs';
-import { createCall, createFetch } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/unenv/runtime/fetch/index.mjs';
-import { createHooks } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/hookable/dist/index.mjs';
-import { hash } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/ohash/dist/index.mjs';
-import { parseURL, withQuery, joinURL } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/ufo/dist/index.mjs';
-import { createStorage } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/unstorage/dist/index.mjs';
-import _unstorage_drivers_fs from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/unstorage/dist/drivers/fs.mjs';
-import { createRenderer } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/vue-bundle-renderer/dist/index.mjs';
-import devalue from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/@nuxt/devalue/dist/devalue.mjs';
-import { renderToString } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/vue/server-renderer/index.mjs';
-import { snakeCase } from 'file://C:/projects/raptos/raptors-website/raptors-frontend/node_modules/scule/dist/index.mjs';
-import htmlTemplate from 'file://C:/projects/raptos/raptors-website/raptors-frontend/.nuxt/views/document.template.mjs';
+globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import 'node-fetch-native/polyfill';
+import { Server as Server$1 } from 'http';
+import { Server } from 'https';
+import destr from 'destr';
+import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, createError, createApp, createRouter, lazyEventHandler } from 'h3';
+import { createFetch as createFetch$1, Headers } from 'ohmyfetch';
+import { createRouter as createRouter$1 } from 'radix3';
+import { createCall, createFetch } from 'unenv/runtime/fetch/index';
+import { createHooks } from 'hookable';
+import { snakeCase } from 'scule';
+import { hash } from 'ohash';
+import { parseURL, withQuery, withLeadingSlash, withoutTrailingSlash } from 'ufo';
+import { createStorage } from 'unstorage';
+import { promises } from 'fs';
+import { dirname, resolve } from 'pathe';
+import { fileURLToPath } from 'url';
 
 const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"routes":{},"envPrefix":"NUXT_"},"public":{"strapi":{"url":"http://localhost:1337","prefix":"/api","version":"v4","cookie":{},"auth":{},"cookieName":"strapi_jwt"}},"strapi":{"url":"http://localhost:1337","prefix":"/api","version":"v4","cookie":{},"auth":{},"cookieName":"strapi_jwt"}};
 const ENV_PREFIX = "NITRO_";
@@ -78,24 +72,40 @@ function timingMiddleware(_req, res, next) {
   next();
 }
 
-const serverAssets = [{"baseName":"server","dir":"C:/projects/raptos/raptors-website/raptors-frontend/server/assets"}];
+const _assets = {
 
-const assets = createStorage();
+};
 
-for (const asset of serverAssets) {
-  assets.mount(asset.baseName, _unstorage_drivers_fs({ base: asset.dir }));
+function normalizeKey(key) {
+  if (!key) {
+    return "";
+  }
+  return key.replace(/[/\\]/g, ":").replace(/:+/g, ":").replace(/^:|:$/g, "");
 }
+
+const assets$1 = {
+  getKeys() {
+    return Promise.resolve(Object.keys(_assets))
+  },
+  hasItem (id) {
+    id = normalizeKey(id);
+    return Promise.resolve(id in _assets)
+  },
+  getItem (id) {
+    id = normalizeKey(id);
+    return Promise.resolve(_assets[id] ? _assets[id].import() : null)
+  },
+  getMeta (id) {
+    id = normalizeKey(id);
+    return Promise.resolve(_assets[id] ? _assets[id].meta : {})
+  }
+};
 
 const storage = createStorage({});
 
 const useStorage = () => storage;
 
-storage.mount('/assets', assets);
-
-storage.mount('root', _unstorage_drivers_fs({"driver":"fs","base":"C:\\projects\\raptos\\raptors-website\\raptors-frontend","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', _unstorage_drivers_fs({"driver":"fs","base":"C:\\projects\\raptos\\raptors-website\\raptors-frontend\\server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', _unstorage_drivers_fs({"driver":"fs","base":"C:\\projects\\raptos\\raptors-website\\raptors-frontend\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', _unstorage_drivers_fs({"driver":"fs","base":"C:\\projects\\raptos\\raptors-website\\raptors-frontend\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('/assets', assets$1);
 
 const defaultCacheOptions = {
   name: "_",
@@ -294,7 +304,7 @@ const errorHandler = (async function errorhandler(_error, event) {
     statusCode,
     statusMessage,
     message,
-    description: statusCode !== 404 ? `<pre>${stack.map((i) => `<span class="stack${i.internal ? " internal" : ""}">${i.text}</span>`).join("\n")}</pre>` : "",
+    description: "",
     data: _error.data
   };
   event.res.statusCode = errorObject.statusCode;
@@ -316,9 +326,169 @@ const errorHandler = (async function errorhandler(_error, event) {
   event.res.end(html);
 });
 
-const _lazy_ZNNC5v = () => Promise.resolve().then(function () { return renderer$1; });
+const assets = {
+  "/_nuxt/ArticleCard-6e5f1530.mjs": {
+    "type": "application/javascript",
+    "etag": "\"302-yhjbYsyMAiE/T1rHL+XZs1ty7Z0\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/ArticleCard-6e5f1530.mjs"
+  },
+  "/_nuxt/entry-a8ab77eb.mjs": {
+    "type": "application/javascript",
+    "etag": "\"2ba4e-/tUmEVdkzt9lR+xxw995pfBqeSs\"",
+    "mtime": "2022-07-21T12:21:32.641Z",
+    "path": "../public/_nuxt/entry-a8ab77eb.mjs"
+  },
+  "/_nuxt/entry.74230253.css": {
+    "type": "text/css; charset=utf-8",
+    "etag": "\"29e6-QPRvjVr6tEyvZ/dYNuUjfcRjD/w\"",
+    "mtime": "2022-07-21T12:21:32.647Z",
+    "path": "../public/_nuxt/entry.74230253.css"
+  },
+  "/_nuxt/index-238dc1f9.mjs": {
+    "type": "application/javascript",
+    "etag": "\"49-JzVdzBLHjbIAEugCRwvf9B93DbY\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/index-238dc1f9.mjs"
+  },
+  "/_nuxt/index-308237d0.mjs": {
+    "type": "application/javascript",
+    "etag": "\"115-CXzXdIV6TswHEPfPUicdCTnRcaQ\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/index-308237d0.mjs"
+  },
+  "/_nuxt/index-5843159f.mjs": {
+    "type": "application/javascript",
+    "etag": "\"117-2W3axh9lzTV77j6WFozGEWnwjnE\"",
+    "mtime": "2022-07-21T12:21:32.645Z",
+    "path": "../public/_nuxt/index-5843159f.mjs"
+  },
+  "/_nuxt/index-5a69bfd7.mjs": {
+    "type": "application/javascript",
+    "etag": "\"3b4-58m20DrOuqoYqBn9Au/SaIzDFSo\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/index-5a69bfd7.mjs"
+  },
+  "/_nuxt/index-6360be47.mjs": {
+    "type": "application/javascript",
+    "etag": "\"46f-y7/MPsS2xsB2kZI8AbYCDyhS32s\"",
+    "mtime": "2022-07-21T12:21:32.647Z",
+    "path": "../public/_nuxt/index-6360be47.mjs"
+  },
+  "/_nuxt/index-6ce7c82c.mjs": {
+    "type": "application/javascript",
+    "etag": "\"116-Hd9hMe5YxfhQPYNgOUPPYPcV0v0\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/index-6ce7c82c.mjs"
+  },
+  "/_nuxt/index-7df6dd58.mjs": {
+    "type": "application/javascript",
+    "etag": "\"114-SRUWQBcFbopWm+WELSKD5ypfvps\"",
+    "mtime": "2022-07-21T12:21:32.647Z",
+    "path": "../public/_nuxt/index-7df6dd58.mjs"
+  },
+  "/_nuxt/manifest.json": {
+    "type": "application/json",
+    "etag": "\"b59-Bq+e4nlLlX9sSvZJLXrCpeg1B+Q\"",
+    "mtime": "2022-07-21T12:21:32.647Z",
+    "path": "../public/_nuxt/manifest.json"
+  },
+  "/_nuxt/Nav-a7cacd8c.mjs": {
+    "type": "application/javascript",
+    "etag": "\"413-urq8CAWJ7ZMlTYmJ8UJIyI8Wyv8\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/Nav-a7cacd8c.mjs"
+  },
+  "/_nuxt/__id_-257570d6.mjs": {
+    "type": "application/javascript",
+    "etag": "\"337-UGxQ9EkoMhD6b9JAEE5f2NGW9/E\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/__id_-257570d6.mjs"
+  },
+  "/_nuxt/__id_-fbb9cb8a.mjs": {
+    "type": "application/javascript",
+    "etag": "\"296-3JEmd0jJVXP0nEtmm+PyVe4VlZY\"",
+    "mtime": "2022-07-21T12:21:32.646Z",
+    "path": "../public/_nuxt/__id_-fbb9cb8a.mjs"
+  }
+};
+
+function readAsset (id) {
+  const serverDir = dirname(fileURLToPath(globalThis._importMeta_.url));
+  return promises.readFile(resolve(serverDir, assets[id].path))
+}
+
+const publicAssetBases = ["/_nuxt"];
+
+function isPublicAssetURL(id = '') {
+  if (assets[id]) {
+    return true
+  }
+  for (const base of publicAssetBases) {
+    if (id.startsWith(base)) { return true }
+  }
+  return false
+}
+
+function getAsset (id) {
+  return assets[id]
+}
+
+const METHODS = ["HEAD", "GET"];
+const _f4b49z = eventHandler(async (event) => {
+  if (event.req.method && !METHODS.includes(event.req.method)) {
+    return;
+  }
+  let id = decodeURIComponent(withLeadingSlash(withoutTrailingSlash(parseURL(event.req.url).pathname)));
+  let asset;
+  for (const _id of [id, id + "/index.html"]) {
+    const _asset = getAsset(_id);
+    if (_asset) {
+      asset = _asset;
+      id = _id;
+      break;
+    }
+  }
+  if (!asset) {
+    if (isPublicAssetURL(id)) {
+      throw createError({
+        statusMessage: "Cannot find static asset " + id,
+        statusCode: 404
+      });
+    }
+    return;
+  }
+  const ifNotMatch = event.req.headers["if-none-match"] === asset.etag;
+  if (ifNotMatch) {
+    event.res.statusCode = 304;
+    event.res.end("Not Modified (etag)");
+    return;
+  }
+  const ifModifiedSinceH = event.req.headers["if-modified-since"];
+  if (ifModifiedSinceH && asset.mtime) {
+    if (new Date(ifModifiedSinceH) >= new Date(asset.mtime)) {
+      event.res.statusCode = 304;
+      event.res.end("Not Modified (mtime)");
+      return;
+    }
+  }
+  if (asset.type) {
+    event.res.setHeader("Content-Type", asset.type);
+  }
+  if (asset.etag) {
+    event.res.setHeader("ETag", asset.etag);
+  }
+  if (asset.mtime) {
+    event.res.setHeader("Last-Modified", asset.mtime);
+  }
+  const contents = await readAsset(id);
+  event.res.end(contents);
+});
+
+const _lazy_ZNNC5v = () => import('./renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
+  { route: '', handler: _f4b49z, lazy: false, middleware: true, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_ZNNC5v, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_ZNNC5v, lazy: true, middleware: false, method: undefined }
 ];
@@ -327,7 +497,7 @@ function createNitroApp() {
   const config = useRuntimeConfig();
   const hooks = createHooks();
   const h3App = createApp({
-    debug: destr(true),
+    debug: destr(false),
     onError: errorHandler
   });
   h3App.use(config.app.baseURL, timingMiddleware);
@@ -368,159 +538,24 @@ function createNitroApp() {
 }
 const nitroApp = createNitroApp();
 
-const server = new Server(nitroApp.h3App.nodeHandler);
-function getAddress() {
-  if (provider === "stackblitz" || process.env.NITRO_NO_UNIX_SOCKET) {
-    return "0";
+const cert = process.env.NITRO_SSL_CERT;
+const key = process.env.NITRO_SSL_KEY;
+const server = cert && key ? new Server({ key, cert }, nitroApp.h3App.nodeHandler) : new Server$1(nitroApp.h3App.nodeHandler);
+const port = destr(process.env.NITRO_PORT || process.env.PORT) || 3e3;
+const hostname = process.env.NITRO_HOST || process.env.HOST || "0.0.0.0";
+server.listen(port, hostname, (err) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
   }
-  const socketName = `worker-${process.pid}-${threadId}.sock`;
-  if (isWindows) {
-    return join("\\\\.\\pipe\\nitro", socketName);
-  } else {
-    const socketDir = join(tmpdir(), "nitro");
-    mkdirSync(socketDir, { recursive: true });
-    return join(socketDir, socketName);
-  }
-}
-const listenAddress = getAddress();
-server.listen(listenAddress, () => {
-  const _address = server.address();
-  parentPort.postMessage({
-    event: "listen",
-    address: typeof _address === "string" ? { socketPath: _address } : { host: "localhost", port: _address.port }
-  });
+  const protocol = cert && key ? "https" : "http";
+  console.log(`Listening on ${protocol}://${hostname}:${port}${useRuntimeConfig().app.baseURL}`);
 });
 {
-  process.on("unhandledRejection", (err) => console.error("[nitro] [dev] [unhandledRejection]", err));
-  process.on("uncaughtException", (err) => console.error("[nitro] [dev] [uncaughtException]", err));
+  process.on("unhandledRejection", (err) => console.error("[nitro] [dev] [unhandledRejection] " + err));
+  process.on("uncaughtException", (err) => console.error("[nitro] [dev] [uncaughtException] " + err));
 }
+const nodeServer = {};
 
-function buildAssetsURL(...path) {
-  return joinURL(publicAssetsURL(), useRuntimeConfig().app.buildAssetsDir, ...path);
-}
-function publicAssetsURL(...path) {
-  const publicBase = useRuntimeConfig().app.cdnURL || useRuntimeConfig().app.baseURL;
-  return path.length ? joinURL(publicBase, ...path) : publicBase;
-}
-
-const getClientManifest = () => import('file://C:/projects/raptos/raptors-website/raptors-frontend/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
-const getServerEntry = () => import('file://C:/projects/raptos/raptors-website/raptors-frontend/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
-const getSSRRenderer = lazyCachedFunction(async () => {
-  const clientManifest = await getClientManifest();
-  if (!clientManifest) {
-    throw new Error("client.manifest is not available");
-  }
-  const createSSRApp = await getServerEntry();
-  if (!createSSRApp) {
-    throw new Error("Server bundle is not available");
-  }
-  const renderer = createRenderer(createSSRApp, {
-    clientManifest,
-    renderToString: renderToString$1,
-    publicPath: buildAssetsURL()
-  });
-  async function renderToString$1(input, context) {
-    const html = await renderToString(input, context);
-    if (process.env.NUXT_VITE_NODE_OPTIONS) {
-      renderer.rendererContext.updateManifest(await getClientManifest());
-    }
-    return `<div id="__nuxt">${html}</div>`;
-  }
-  return renderer;
-});
-const getSPARenderer = lazyCachedFunction(async () => {
-  const clientManifest = await getClientManifest();
-  const renderToString = (ssrContext) => {
-    const config = useRuntimeConfig();
-    ssrContext.payload = {
-      serverRendered: false,
-      config: {
-        public: config.public,
-        app: config.app
-      }
-    };
-    let entryFiles = Object.values(clientManifest).filter((fileValue) => fileValue.isEntry);
-    if ("all" in clientManifest && "initial" in clientManifest) {
-      entryFiles = clientManifest.initial.map((file) => ({ file }));
-    }
-    return Promise.resolve({
-      html: '<div id="__nuxt"></div>',
-      renderResourceHints: () => "",
-      renderStyles: () => entryFiles.flatMap(({ css }) => css).filter((css) => css != null).map((file) => `<link rel="stylesheet" href="${buildAssetsURL(file)}">`).join(""),
-      renderScripts: () => entryFiles.map(({ file }) => {
-        const isMJS = !file.endsWith(".js");
-        return `<script ${isMJS ? 'type="module"' : ""} src="${buildAssetsURL(file)}"><\/script>`;
-      }).join("")
-    });
-  };
-  return { renderToString };
-});
-const renderer = eventHandler(async (event) => {
-  const ssrError = event.req.url?.startsWith("/__nuxt_error") ? useQuery(event) : null;
-  const url = ssrError?.url || event.req.url;
-  const ssrContext = {
-    url,
-    event,
-    req: event.req,
-    res: event.res,
-    runtimeConfig: useRuntimeConfig(),
-    noSSR: !!event.req.headers["x-nuxt-no-ssr"],
-    error: ssrError,
-    nuxt: void 0,
-    payload: void 0
-  };
-  const renderer = ssrContext.noSSR ? await getSPARenderer() : await getSSRRenderer();
-  const rendered = await renderer.renderToString(ssrContext).catch((e) => {
-    if (!ssrError) {
-      throw e;
-    }
-  });
-  if (!rendered) {
-    return;
-  }
-  if (event.res.writableEnded) {
-    return;
-  }
-  if (ssrContext.error && !ssrError) {
-    throw ssrContext.error;
-  }
-  if (ssrContext.nuxt?.hooks) {
-    await ssrContext.nuxt.hooks.callHook("app:rendered");
-  }
-  const html = await renderHTML(ssrContext.payload, rendered, ssrContext);
-  event.res.setHeader("Content-Type", "text/html;charset=UTF-8");
-  return html;
-});
-async function renderHTML(payload, rendered, ssrContext) {
-  const state = `<script>window.__NUXT__=${devalue(payload)}<\/script>`;
-  rendered.meta = rendered.meta || {};
-  if (ssrContext.renderMeta) {
-    Object.assign(rendered.meta, await ssrContext.renderMeta());
-  }
-  return htmlTemplate({
-    HTML_ATTRS: rendered.meta.htmlAttrs || "",
-    HEAD_ATTRS: rendered.meta.headAttrs || "",
-    HEAD: (rendered.meta.headTags || "") + rendered.renderResourceHints() + rendered.renderStyles() + (ssrContext.styles || ""),
-    BODY_ATTRS: rendered.meta.bodyAttrs || "",
-    BODY_PREPEND: ssrContext.teleports?.body || "",
-    APP: (rendered.meta.bodyScriptsPrepend || "") + rendered.html + state + rendered.renderScripts() + (rendered.meta.bodyScripts || "")
-  });
-}
-function lazyCachedFunction(fn) {
-  let res = null;
-  return () => {
-    if (res === null) {
-      res = fn().catch((err) => {
-        res = null;
-        throw err;
-      });
-    }
-    return res;
-  };
-}
-
-const renderer$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  'default': renderer
-});
-//# sourceMappingURL=index.mjs.map
+export { nodeServer as n, useRuntimeConfig as u };
+//# sourceMappingURL=node-server.mjs.map

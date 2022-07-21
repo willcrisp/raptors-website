@@ -6,6 +6,8 @@
       <NuxtLink to="/articles">View news!</NuxtLink>
     </div>
     <div class="container">
+    <button type="button" class="btn btn-primary" @click="test">Primary</button>
+
     <div v-if="error">
       {{ error }}
     </div>
@@ -24,8 +26,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'App',
   data () {
@@ -34,15 +34,20 @@ export default {
       error: null,
     }
   },
-  async mounted () {
-    try {
-      const response = await axios.get('http://localhost:1337/api/articles?populate=*')
-      this.articles = response.data.data //fkn really... had to do data.data... fuck this shiiiiiiiiiiiit.. this took me forever to figure out
-
-      console.log(this.articles)
-    } catch (error) {
-      this.error = error;
+  methods: {
+    test() {
+     console.log("hey", this.$store.state.articlesStore.articles)
     }
+  },
+ mounted () {
+    // try {
+    //   const response = await axios.get('http://localhost:1337/api/articles?populate=*')
+    //   this.articles = response.data.data //fkn really... had to do data.data... fuck this shiiiiiiiiiiiit.. this took me forever to figure out
+
+    //   console.log(this.articles)
+    // } catch (error) {
+    //   this.error = error;
+    // }
   }
 }
 </script>
@@ -53,4 +58,3 @@ export default {
   margin-top: 5rem;
 }
 </style>
-
